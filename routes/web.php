@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('postypeStore');
 });
+
+Route::get('/get_kind_info', 'PostypeController@get_kind_info');
+Route::get('/get_price_info', 'PostypeController@get_price_info');
