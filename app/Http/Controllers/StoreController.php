@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use ApiSet;
 
-class PostypeController extends Controller
+class StoreController extends Controller
 {
     public function get_kind_info(Request $request){
 
