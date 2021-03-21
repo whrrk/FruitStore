@@ -11,9 +11,11 @@ class PostypeController extends Controller
 
         $product_kind = $request->product_kind;
 
-        if($product_kind == "fruit"){
+        if($product_kind == "fruit")
+        {
             $result = ApiSet::getFruitList();
-        }else{
+        }else
+        {
             $result = ApiSet::getVegetableList();
         }
         
@@ -25,11 +27,11 @@ class PostypeController extends Controller
         $product_kind = $request->product_kind;
         $product_name = $request->product_name;
 
-        if($product_kind == "fruit"){
-
+        if($product_kind == "fruit")
+        {
             $result = ApiSet::getFruitPrice($product_name);
-        }else{
-
+        }else
+        {
             $result = ApiSet::getVegetablePrice($product_name);
         }
 

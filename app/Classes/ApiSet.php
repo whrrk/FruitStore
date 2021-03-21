@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class ApiSet
 {
-
     public function fruitAccess() {
 
         $curl = curl_init();
@@ -24,8 +23,11 @@ class ApiSet
         ));
         
         $json_response = curl_exec($curl);
+
         $response = json_decode($json_response,true);
+
         curl_close($curl);
+
         return $response["accessToken"];
     }
 
@@ -60,6 +62,12 @@ class ApiSet
     }
 
     public function getFruitPrice($product_name) {
+        if($product_name ==""){
+
+            $response = array('http_status'=>$http_status);
+
+            return $response;
+        }
 
         $fruit_key = $this->fruitAccess();
 
@@ -70,22 +78,26 @@ class ApiSet
         $url = 'http://fruit.api.postype.net/product?' . http_build_query($params);
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: '.$fruit_key
-        ),
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: '.$fruit_key
+            ),
         ));
 
-        $json_response = curl_exec($curl);
+        $result = curl_exec($curl);
 
-        $response = json_decode($json_response,true);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        $array_res = json_decode($result,true);
+
+        $response = array("array_res" => $array_res,'http_status'=>$http_status);
 
         curl_close($curl);
 
@@ -93,6 +105,7 @@ class ApiSet
     }
 
     public function vegetableAccess() {
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -154,6 +167,13 @@ class ApiSet
 
     public function getVegetablePrice($product_name) {
 
+        if($product_name ==""){
+
+            $response = array('http_status'=>$http_status);
+
+            return $response;
+        }
+
         $veget_key = $this->vegetableAccess();
 
         $curl = curl_init();
@@ -178,7 +198,11 @@ class ApiSet
         
         $result = curl_exec($curl);
 
-        $response = json_decode($json_response,true);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        $array_res = json_decode($result,true);
+
+        $response = array("array_res" => $array_res,'http_status'=>$http_status);
 
         curl_close($curl);
 

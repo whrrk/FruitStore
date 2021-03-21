@@ -29,28 +29,51 @@ $('#product_kind').on('change', function(){
               }
 
             $("#tbody").append(str);
+            $(".card-body-table").css("display","table");
         }
     })
 });
 
 //가격 조회
-function get_price_info(){
+function getPriceInfo(){
 
     var product_kind = $("#product_kind").val();
     var product_name = $("#product_name").val();
-    console.log(product_name);
+    if(product_name ==""){
+        alert("물품 이름을 입력해주세요.");
+        return;
+    }
     $.ajax({
         url: "/get_price_info",
         type: "get",
         data: {product_kind : product_kind, product_name : product_name},
         dataType: 'JSON',
         success: function (data) {
-            console.log("성공??");
-            console.log(data);
+
+            $("#price_result").html("");
+            var str = "";
+           
+            if(data['http_status'] !== 200){
+                
+                str = "해당 물품은 리스트에 없습니다.";
+            }else{
+                var price = data['array_res']['price'];
+                str = "검색하신 "+product_name+"의 가격은 "+ price+"원 입니다.";
+            }
+           
+            $("#price_result").html(str);
+            $("#product_name").val("");
+            $("#product_kind option:eq(0)").prop("selected", true);
+
         }
     })
 }
 
+function enterButton(){
+    if (window.event.keyCode == 13) {
+        getPriceInfo();
+    }
+}
 
 
 
